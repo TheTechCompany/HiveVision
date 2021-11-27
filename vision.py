@@ -11,11 +11,15 @@ while(True):
     ret, frame = vid.read()
 
     results = model(frame)
+    
+    cv2.imshow('frame', frame)
 
     results.print()
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+cv2.destroyAllWindows()
 
 vid.release()
 

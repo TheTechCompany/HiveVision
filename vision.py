@@ -7,7 +7,7 @@ import time
 telemetry = "http://192.168.255.62:4200/api/telemetry"
 
 print("Loading YOLO...")
-model = torch.hub.load('ultralytics/yolov3', 'yolov3', force_reload=True)
+model = torch.hub.load('ultralytics/yolov3', 'yolov3')
 print("Loaded model")
 vid = cv2.VideoCapture(0)
 
@@ -15,7 +15,7 @@ while(True):
 
     ret, frame = vid.read()
 
-    results = model(frame)
+    results = model(frame[..., ::-1])
     
     print(results)
 

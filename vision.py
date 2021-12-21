@@ -13,6 +13,7 @@ vid = cv2.VideoCapture(0)
 
 while(True):
 
+    print("Lesgo")
     ret, frame = vid.read()
 
     results = model(frame[..., ::-1])

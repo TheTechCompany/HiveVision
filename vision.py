@@ -1,8 +1,10 @@
 import torch
 import cv2
 import json
+import requests
+import time
 
-telemetry = "http://192.168.255.62:4200/api/telemetry"
+telemetry = "http://hahei-jumpbox.hexhive.io/api/telemetry"
 
 print("Loading YOLO...")
 model = torch.hub.load('ultralytics/yolov3', 'yolov3')
@@ -29,9 +31,9 @@ while(True):
     #print(results)
 
     #event, properties, source, timestamp 
-    #x = requests.post(
-    #    telemetry, 
-    #    data={ 'event': 'camera-yolo', 'properties': results, 'source': 'camera', 'timestamp': time.time() })
+    x = requests.post(
+       telemetry, 
+       data={ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() })
 
     #time.sleep(5)
 

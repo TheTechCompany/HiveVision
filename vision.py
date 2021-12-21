@@ -37,7 +37,7 @@ while(True):
        data=json.dumps({ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() * 1000 })
     )
 
-    #time.sleep(5)
+    time.sleep(10)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

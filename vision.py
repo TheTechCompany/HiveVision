@@ -34,7 +34,7 @@ while(True):
     x = requests.post(
        telemetry, 
        headers={'content-type': 'application/json'},
-       data={ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() * 1000 }
+       data=json.dumps({ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() * 1000 })
     )
 
     #time.sleep(5)

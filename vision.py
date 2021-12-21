@@ -17,7 +17,9 @@ while(True):
 
     results = model(frame[..., ::-1])
     
-    print(results)
+    results.print()
+    print("Wait then next")
+    #print(results)
 
     #event, properties, source, timestamp 
     #x = requests.post(

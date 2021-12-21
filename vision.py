@@ -16,7 +16,7 @@ while(True):
 
     results = model(frame[..., ::-1])
     
-    print(results.pandas().xyxy[0].loc(0).to_json())
+    print(results.pandas().xyxy[0].to_json())
     #print("Wait then next")
 
     #print(results)

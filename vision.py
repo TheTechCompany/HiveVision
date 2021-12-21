@@ -12,11 +12,11 @@ print("Grabbed camera")
 while(True):
 
     print("Lesgo")
-    # ret, frame = vid.read()
+    ret, frame = vid.read()
 
-    #results = model(frame[..., ::-1])
+    results = model(frame[..., ::-1])
     
-    #results.print()
+    results.print()
     #print("Wait then next")
 
     #print(results)

@@ -16,7 +16,7 @@ while(True):
 
     results = model(frame[..., ::-1])
     
-    print(results.pandas().xyxy)
+    print(results.pandas().xyxy[0])
     #print("Wait then next")
 
     #print(results)

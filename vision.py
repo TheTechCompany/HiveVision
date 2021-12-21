@@ -7,6 +7,7 @@ print("Loading YOLO...")
 model = torch.hub.load('ultralytics/yolov3', 'yolov3')
 print("Loaded model")
 vid = cv2.VideoCapture(0)
+print("Grabbed camera")
 
 while(True):
 

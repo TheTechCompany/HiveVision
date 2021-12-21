@@ -33,7 +33,7 @@ while(True):
     #event, properties, source, timestamp 
     x = requests.post(
        telemetry, 
-       data={ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() })
+       data={ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() * 1000 })
 
     #time.sleep(5)
 

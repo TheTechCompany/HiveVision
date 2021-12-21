@@ -1,8 +1,5 @@
-from typing import Tuple
 import torch
 import cv2
-import requests
-import time
 
 telemetry = "http://192.168.255.62:4200/api/telemetry"
 
@@ -20,7 +17,7 @@ while(True):
     
     #results.print()
     #print("Wait then next")
-    
+
     #print(results)
 
     #event, properties, source, timestamp 
@@ -28,7 +25,7 @@ while(True):
     #    telemetry, 
     #    data={ 'event': 'camera-yolo', 'properties': results, 'source': 'camera', 'timestamp': time.time() })
 
-    time.sleep(5)
+    #time.sleep(5)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

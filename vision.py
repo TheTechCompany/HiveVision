@@ -15,10 +15,14 @@ while(True):
     ret, frame = vid.read()
 
     results = model(frame[..., ::-1])
-    
-    print(results.pandas().xyxy[0].loc[0].to_json())
-    #print("Wait then next")
 
+    items = []
+    
+    for index, row in results.pandas().xyxy[0].iterrows():
+        items.append(row.to_json())
+    # print(results.pandas().xyxy[0].loc[0].to_json())
+    #print("Wait then next")
+    print(filter(lambda row: row.confidence > 60, items))
     #print(results)
 
     #event, properties, source, timestamp 

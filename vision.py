@@ -1,5 +1,6 @@
 import torch
 import cv2
+import json
 
 telemetry = "http://192.168.255.62:4200/api/telemetry"
 
@@ -19,10 +20,12 @@ while(True):
     items = []
     
     for index, row in results.pandas().xyxy[0].iterrows():
-        items.append(row.to_json())
+        items.append(json.loads(row.to_json()))
+
+    rows = list(filter(lambda x: x['confidence'] > 0.6, items))
     # print(results.pandas().xyxy[0].loc[0].to_json())
     #print("Wait then next")
-    print(list(filter(lambda row: row.confidence > 60, items)))
+    print(rows)
     #print(results)
 
     #event, properties, source, timestamp 

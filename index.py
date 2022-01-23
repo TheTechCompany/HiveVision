@@ -17,8 +17,8 @@ while(True):
     print("Lesgo")
     ret, frame = vid.read()
 
-    cv2.imshow('frame', frame)
-    
+    #cv2.imshow('frame', frame)
+
     results = model(frame[..., ::-1])
 
     items = []

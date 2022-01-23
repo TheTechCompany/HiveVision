@@ -17,6 +17,8 @@ while(True):
     print("Lesgo")
     ret, frame = vid.read()
 
+    cv2.imshow('frame', frame)
+    
     results = model(frame[..., ::-1])
 
     items = []
@@ -27,6 +29,7 @@ while(True):
     rows = list(filter(lambda x: x['confidence'] > 0.6, items))
     # print(results.pandas().xyxy[0].loc[0].to_json())
     #print("Wait then next")
+
     print(rows)
     #print(results)
 

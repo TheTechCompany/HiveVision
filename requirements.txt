@@ -20,6 +20,13 @@ wandb
 pandas>=1.1.4
 seaborn>=0.11.0
 
+# Tensorflow
+tensorflow; sys_platform != 'darwin'
+tensorflow-macos; sys_platform == 'darwin'
+
+# Mediapipe
+mediapipe
+
 # Export --------------------------------------
 # coremltools>=4.1  # CoreML export
 # onnx>=1.9.0  # ONNX export

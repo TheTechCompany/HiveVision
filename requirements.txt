@@ -27,6 +27,7 @@ tensorflow-macos; sys_platform == 'darwin'
 # Mediapipe
 mediapipe
 
+eventlet
 websockets
 asyncio
 

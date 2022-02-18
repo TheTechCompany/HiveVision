@@ -3,11 +3,12 @@
 import numpy as np
 import tensorflow as tf
 
+from pathlib import Path
 
 class PointHistoryClassifier(object):
     def __init__(
         self,
-        model_path='model/point_history_classifier/point_history_classifier.tflite',
+        model_path=str(Path('spectacles/hands/model/point_history_classifier/point_history_classifier.tflite')),
         score_th=0.5,
         invalid_value=0,
         num_threads=1,

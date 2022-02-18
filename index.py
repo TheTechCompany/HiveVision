@@ -1,65 +1,67 @@
-from spectacles.hands.index import find_hands
-from spectacles.objects.index import find_object
-
-import cv2
+from socket import socket
+from matplotlib.pyplot import connect
+from sanic import Sanic
 import json
-import requests
+import cv2
 import time
+import os
+import sys
+import socketio
+import asyncio
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, thread
+from cors import add_cors_headers
+from options import setup_options
+import threading
+import eventlet
+import websockets
 
+from flask import Flask
+from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 
-telemetry = "http://hahei-jumpbox.hexhive.io/api/telemetry"
+from spectacles.index import Spectacle
 
-
-vid = cv2.VideoCapture(0)
-print("Grabbed camera")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 lastTime = 0
 currentTime = 0
 
-while(True):
+app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
+CORS(app)
 
-    currentTime = time.time()
+header = {'Access-Control-Allow-Origin' : '*'}
 
-    ret, frame = vid.read()
+specs = Spectacle()
 
-    #cv2.imshow('frame', frame)
+connected = set()
 
-    
-    hands = find_hands(frame)
+async def handler(websocket):
+    connected.add(websocket)
 
-    if currentTime - lastTime > 5:
-        objects = find_object(frame)
+    while True:
+        pos = specs.get_pos()
 
-    print(hands)
-    print(objects)
-    #results = model(frame[..., ::-1])
+        await websocket.send(json.dumps(pos))
+        await asyncio.sleep(0.2)
 
-    #items = []
-    
-    #for index, row in results.pandas().xyxy[0].iterrows():
-    #    items.append(json.loads(row.to_json()))
+async def server():
 
-    #rows = list(filter(lambda x: x['confidence'] > 0.6, items))
-    # print(results.pandas().xyxy[0].loc[0].to_json())
-    #print("Wait then next")
+    async with websockets.serve(handler, '0.0.0.0', 8000, extra_headers=header):
+        await asyncio.Future()
 
-    #print(rows)
-    #print(results)
+async def emitter():
+    print("Send")
+    while True:
+        print("emitting arms")
 
-    #event, properties, source, timestamp 
-    #x = requests.post(
-    #   telemetry, 
-    #   headers={'content-type': 'application/json'},
-    #   data=json.dumps({ 'event': 'camera-yolo', 'properties': {'results': rows}, 'source': 'camera', 'timestamp': time.time() * 1000 })
-    #)
+        websockets.broadcast(connected, json.dumps({'state': 'hands', 'bounds': []}))
+        time.sleep(0.2)
 
-    #time.sleep(10)
+if __name__ == '__main__':
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    specs.start()
 
-cv2.destroyAllWindows()
-
-vid.release()
-
+    asyncio.run(server())
 

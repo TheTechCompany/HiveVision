@@ -1,5 +1,6 @@
 from collections import deque
 from collections import Counter
+from pathlib import Path
 import itertools
 import copy
 import csv
@@ -7,9 +8,14 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import sys
+import os
 
-from model.keypoint_classifier.keypoint_classifier import KeyPointClassifier
-from model.point_history_classifier.point_history_classifier import PointHistoryClassifier
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+
+from .model import KeyPointClassifier
+from .model import PointHistoryClassifier
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(
@@ -21,12 +27,15 @@ hands = mp_hands.Hands(
 keypoint_classifier = KeyPointClassifier()
 point_history_classifier = PointHistoryClassifier()
 
-with open('model/keypoint_classifier/keypoint_classifier_label.csv',
+kp_classifier_label_loc = Path('spectacles/hands/model/keypoint_classifier/keypoint_classifier_label.csv')
+p_classifier_label_loc = Path('spectacles/hands/model/point_history_classifier/point_history_classifier_label.csv')
+
+with open(kp_classifier_label_loc,
             encoding='utf-8-sig') as f:
     keypoint_classifier_labels = csv.reader(f)
     keypoint_classifier_labels = [row[0] for row in keypoint_classifier_labels]
 
-with open('model/point_history_classifier/point_history_classifier_label.csv',
+with open(p_classifier_label_loc,
             encoding='utf-8-sig') as f:
     point_history_classifier_labels = csv.reader(f)
     point_history_classifier_labels = [row[0] for row in point_history_classifier_labels]
@@ -39,11 +48,13 @@ finger_gesture_history = deque(maxlen=history_length)
 mode = 0
 
 def find_hands(frame):
-    image = cv2.flip(frame, 1)    
 
+    image = cv2.flip(frame, 1)    
     debug_image = copy.deepcopy(image)
 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    bounds = []
 
     image.flags.writeable = False
     results = hands.process(image)
@@ -53,6 +64,8 @@ def find_hands(frame):
         for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
 
             brect = calc_bounding_rect(debug_image, hand_landmarks)
+
+            bounds.append(brect)
 
             landmark_list = calc_landmark_list(debug_image, hand_landmarks)
 
@@ -85,10 +98,14 @@ def find_hands(frame):
                 finger_gesture_history
             ).most_common()
 
+            return bounds, keypoint_classifier_labels[hand_sign_id]
+
     else:
         point_history.append([0, 0])
+        return [], 'no_hand'
 
-    return hand_sign_id
+    #     keypoint_classifier_labels[hand_sign_id]
+    # return point_history, finger_gesture_history, bounds
 
 
 

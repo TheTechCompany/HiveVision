@@ -27,8 +27,7 @@ tensorflow-macos; sys_platform == 'darwin'
 # Mediapipe
 mediapipe
 
-sanic
-python-socketio
+websockets
 asyncio
 
 # Export --------------------------------------

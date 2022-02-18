@@ -1,23 +1,9 @@
-from socket import socket
-from matplotlib.pyplot import connect
-from sanic import Sanic
 import json
-import cv2
 import time
 import os
 import sys
-import socketio
 import asyncio
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, thread
-from cors import add_cors_headers
-from options import setup_options
-import threading
-import eventlet
 import websockets
-
-from flask import Flask
-from flask_socketio import SocketIO, emit
-from flask_cors import CORS
 
 from spectacles.index import Spectacle
 
@@ -27,9 +13,6 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 lastTime = 0
 currentTime = 0
 
-app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
-CORS(app)
 
 header = {'Access-Control-Allow-Origin' : '*'}
 

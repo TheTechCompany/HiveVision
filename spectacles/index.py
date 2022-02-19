@@ -4,7 +4,7 @@ import time
 import json
 import requests
 from spectacles.hands.index import find_hands
-from spectacles.objects.index import find_object
+# from spectacles.objects.index import find_object
 
 telemetry = "http://hahei-jumpbox.hexhive.io/api/telemetry"
 
@@ -25,12 +25,12 @@ class Spectacle:
     def get_pos(self):
         return self.currentPosition
 
-    def _long_capture(self, frame):
-            objects = find_object(frame)
-            requests.post(
-                telemetry,      
-                headers={'content-type': 'application/json'},
-                data=json.dumps({'event': 'camera-yolo', 'properties': {'results': objects}, 'source': 'camera', 'timestamp': time.time() * 1000}))
+    # def _long_capture(self, frame):
+    #         objects = find_object(frame)
+    #         requests.post(
+    #             telemetry,      
+    #             headers={'content-type': 'application/json'},
+    #             data=json.dumps({'event': 'camera-yolo', 'properties': {'results': objects}, 'source': 'camera', 'timestamp': time.time() * 1000}))
 
     def _capture(self):
         while(True):
@@ -44,8 +44,8 @@ class Spectacle:
             bounds, hand = find_hands(frame)
 
             if self.currentTime - self.lastTime > 5:
-                capture = threading.Thread(target=self._long_capture, args=([frame]))
-                capture.start()
+                # capture = threading.Thread(target=self._long_capture, args=([frame]))
+                # capture.start()
                 self.lastTime = self.currentTime
 
 

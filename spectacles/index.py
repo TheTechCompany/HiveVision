@@ -3,7 +3,7 @@ import cv2
 import time
 import json
 import requests
-from spectacles.hands.index import find_hands
+# from spectacles.hands.index import find_hands
 from spectacles.objects.index import find_object
 
 telemetry = "http://hahei-jumpbox.hexhive.io/api/telemetry"
@@ -41,7 +41,7 @@ class Spectacle:
 
             debug_image = cv2.flip(frame, 1)
         
-            bounds, hand = find_hands(frame)
+            # bounds, hand = find_hands(frame)
 
             if self.currentTime - self.lastTime > 5:
                 capture = threading.Thread(target=self._long_capture, args=([frame]))

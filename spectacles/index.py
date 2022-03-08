@@ -49,9 +49,9 @@ class Spectacle:
                 self.lastTime = self.currentTime
 
 
-            self.currentPosition = {'gesture': hand, 'position': bounds}
+            # self.currentPosition = {'gesture': hand, 'position': bounds}
     
-            print(hand)
+            # print(hand)
 
             time.sleep(0.2)
 
